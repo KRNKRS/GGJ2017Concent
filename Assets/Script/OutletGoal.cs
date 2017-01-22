@@ -109,6 +109,7 @@ public class OutletGoal : MonoBehaviour
             var nowSize = lightArea.rectTransform.sizeDelta;
             var targetCamSize = new Vector2(100000, 100000);
             lightArea.rectTransform.sizeDelta = Vector3.Lerp(nowSize, targetCamSize, 0.05f);
+            lightArea.color = new Color(0, 0, 0, lightArea.color.a - Time.deltaTime);
             var nowCamPos = Camera.main.transform.position;
             var targetCamPos = new Vector3(playerObj.transform.position.x, playerObj.transform.position.y, -10);
             Camera.main.transform.position = Vector3.Lerp(nowCamPos, targetCamPos, 0.1f);
@@ -122,6 +123,16 @@ public class OutletGoal : MonoBehaviour
         yield return new WaitForSeconds(2f);
         SceneManager.LoadScene("Result", LoadSceneMode.Additive);
         SoundController.ChangeBGM(Resources.Load("BGM/crear") as AudioClip, false);
-        StopCoroutine("ConnectingAction");
+        while (true)
+        {
+            Camera.main.transform.Translate(Vector2.up * Time.deltaTime);
+            var Y = Camera.main.transform.position.y;
+            if(Y < 5)
+            {
+                StopCoroutine("ConnectingAction");
+            }
+            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, Y, Camera.main.transform.position.z);
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
     }
 }
