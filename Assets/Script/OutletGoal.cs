@@ -128,7 +128,7 @@ public class OutletGoal : MonoBehaviour
             Camera.main.transform.Translate(Vector2.up * Time.deltaTime);
             //Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, Y, Camera.main.transform.position.z);
             var Y = Camera.main.transform.position.y;
-            if(Y > 5)
+            if(Y > 0)
             {
                 StopCoroutine("ConnectingAction");
             }
