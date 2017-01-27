@@ -15,18 +15,21 @@ public class OutletGoal : MonoBehaviour
     public AudioClip connectSe;
     public AudioClip lightSe;
     private bool isSePlay = false;
+    private GameObject enableChangeButtons;
 
     void Awake()
     {
         lightArea = GameObject.Find("LightArea").GetComponent<RawImage>();
         flash = GameObject.Find("Flash").GetComponent<Image>();
         audioSource = this.GetComponent<AudioSource>();
+        enableChangeButtons = GameObject.Find("EnableChangeButtons").gameObject;
     }
 
     // Use this for initialization
     void Start()
     {
         flash.color = new Color(1, 1, 1, 0);
+        enableChangeButtons.SetActive(true);
     }
 
     // Update is called once per frame
@@ -41,8 +44,10 @@ public class OutletGoal : MonoBehaviour
         {
             playerObj = other.gameObject;
             playerObj.GetComponent<CircleCollider2D>().enabled = false;
+            playerObj.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
             playerAnimator = playerObj.GetComponent<Animator>();
             GameValueManager.SetGetIsPlayingGame = false;
+            enableChangeButtons.SetActive(false);
             StartCoroutine("ConnectingAction");
         }
     }

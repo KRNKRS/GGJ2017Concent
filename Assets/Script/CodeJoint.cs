@@ -125,12 +125,17 @@ public class CodeJoint : MonoBehaviour {
     private IEnumerator CountDown()
     {
         yield return new WaitForSeconds(3f);
-        countDownImage.enabled = true;
+        countDownImage.enabled = GameValueManager.SetGetIsPlayingGame;
         //statusImage.sprite = failureSprite;
         int count = 3;
         countDownImage.sprite = countImageList[count - 1];
         while (true)
         {
+            if (!GameValueManager.SetGetIsPlayingGame)
+            {
+                countDownImage.enabled = false;
+                StopCoroutine("CountDown");
+            }
             yield return new WaitForSeconds(1.5f);
             count--;
             if(count > 0)
